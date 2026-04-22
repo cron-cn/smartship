@@ -1,0 +1,26 @@
+{
+  "id": 8,
+  "device_code": "7",
+  "device_name": "焊线夹对接线DIY焊锡工具套装焊线台PCB接线夹具杜邦线夹焊接神器",
+  "display_name": "焊线夹对接线DIY焊锡工具套装焊线台PCB接线夹具杜邦线夹焊接神器",
+  "voltage": "",
+  "current": "",
+  "quantity_normal": "1",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "",
+  "purchase_link": "https://item.taobao.com/item.htm?_u=k35gpgur8fa7&id=963034875172&spm=a1z09.2.0.0.321b2e8dmMlq0f",
+  "folder_name": "device_8_焊线夹对接线diy焊锡工具套装焊线台pcb接线夹具杜邦线夹焊接神器",
+  "created_at": "2026-04-20T23:34:27",
+  "images": [
+    {
+      "id": 7,
+      "kind": "image",
+      "original_name": "2026-04-20_233419.png",
+      "relative_path": "data/devices/device_8_焊线夹对接线diy焊锡工具套装焊线台pcb接线夹具杜邦线夹焊接神器/images/image_8_20260420233427981001.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

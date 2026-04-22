@@ -1,0 +1,16 @@
+{
+  "id": 33,
+  "device_code": "31",
+  "device_name": "12V电池",
+  "display_name": "12V电池",
+  "voltage": "12v",
+  "current": "1500ma",
+  "quantity_normal": "3",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "【12V1500】带板出线(DC母头+红黑线）[3节并排]",
+  "purchase_link": "https://item.taobao.com/item.htm?_u=m35gpgur62d9&id=797145454372&spm=a1z09.2.0.0.481e2e8dIgbjjf",
+  "folder_name": "device_33_12v电池",
+  "created_at": "2026-04-22T20:27:31"
+}

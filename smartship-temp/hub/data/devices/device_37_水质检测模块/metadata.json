@@ -1,0 +1,38 @@
+{
+  "id": 37,
+  "device_code": "35",
+  "device_name": "水质检测模块",
+  "display_name": "水质检测模块",
+  "voltage": "",
+  "current": "",
+  "quantity_normal": "2",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "https://detail.tmall.com/item.htm?_u=m35gpgur4a82&id=845886370931&skuId=5628679281597&spm=a1z09.2.0.0.2e962e8dkysjwA\r\n链接: https://pan.baidu.com/s/1kqZPm55iguJLEHF2f68SMg?pwd=rpx9 提取码: rpx9",
+  "purchase_link": "https://item.taobao.com/item.htm?_u=m35gpgurc5f0&id=637832887998&spm=a1z09.2.0.0.2e962e8dkysjwA",
+  "folder_name": "device_37_水质检测模块",
+  "created_at": "2026-04-22T20:44:15",
+  "images": [
+    {
+      "id": 46,
+      "kind": "image",
+      "original_name": "2026-04-22_204249.png",
+      "relative_path": "data/devices/device_37_水质检测模块/images/image_37_20260422204415894620.png"
+    },
+    {
+      "id": 47,
+      "kind": "image",
+      "original_name": "2026-04-22_204910.png",
+      "relative_path": "data/devices/device_37_水质检测模块/images/image_37_20260422204943439642.png"
+    },
+    {
+      "id": 48,
+      "kind": "image",
+      "original_name": "2026-04-22_204910.png",
+      "relative_path": "data/devices/device_37_水质检测模块/images/image_37_20260422204948954774.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

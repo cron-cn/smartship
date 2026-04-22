@@ -1,0 +1,32 @@
+{
+  "id": 39,
+  "device_code": "37",
+  "device_name": "电焊笔",
+  "display_name": "电焊笔",
+  "voltage": "",
+  "current": "",
+  "quantity_normal": "1",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "",
+  "purchase_link": "https://detail.tmall.com/item.htm?_u=m35gpgurdb06&id=793040373072&spm=a1z09.2.0.0.2e962e8dkysjwA",
+  "folder_name": "device_39_电焊笔",
+  "created_at": "2026-04-22T20:53:02",
+  "images": [
+    {
+      "id": 50,
+      "kind": "image",
+      "original_name": "2026-04-22_205230.png",
+      "relative_path": "data/devices/device_39_电焊笔/images/image_39_20260422205302133725.png"
+    },
+    {
+      "id": 51,
+      "kind": "image",
+      "original_name": "2026-04-22_205630.png",
+      "relative_path": "data/devices/device_39_电焊笔/images/image_39_20260422205634162301.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

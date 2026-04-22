@@ -1,0 +1,26 @@
+{
+  "id": 4,
+  "device_code": "3",
+  "device_name": "VT-775 圆轴 12V1万转",
+  "display_name": "VT-775 圆轴 12V1万转",
+  "voltage": "12/24v",
+  "current": "0.5A空载/30w",
+  "quantity_normal": "4",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "自购买",
+  "purchase_link": "https://item.taobao.com/item.htm?_u=k35gpgurd897&id=739441187095&spm=a1z09.2.0.0.321b2e8dmMlq0f",
+  "folder_name": "device_4_vt-775-圆轴-12v1万转",
+  "created_at": "2026-04-20T23:28:54",
+  "images": [
+    {
+      "id": 3,
+      "kind": "image",
+      "original_name": "2026-04-20_232738.png",
+      "relative_path": "data/devices/device_4_vt-775-圆轴-12v1万转/images/image_4_20260420232854507071.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

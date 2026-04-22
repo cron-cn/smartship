@@ -1,0 +1,5 @@
+{% macro sidebar_device_item(item, current_id=None) -%}
+<a class="sidebar-device-item {% if item.id == current_id %}active{% endif %}" data-id="{{ item.id }}" data-search="{{ item.id }} {{ item.device_code or '' }} {{ item.device_name or '' }}" href="{{ url_for('devices_page', device_id=item.id) if not request.args.get('category_id') else url_for('devices_page', device_id=item.id, category_id=request.args.get('category_id') ) }}">
+  <span class="sidebar-device-label">{{ (item.device_code or item.id) ~ '.' ~ (item.device_name or '未命名设备') }}</span>
+</a>
+{%- endmacro %}

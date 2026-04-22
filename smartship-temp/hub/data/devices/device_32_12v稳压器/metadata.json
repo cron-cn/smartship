@@ -1,0 +1,32 @@
+{
+  "id": 32,
+  "device_code": "30",
+  "device_name": "12v稳压器",
+  "display_name": "12v稳压器",
+  "voltage": "输入17-110V输出12V",
+  "current": "5A",
+  "quantity_normal": "2",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "黑色输入17-110V输出12V 5A大功率",
+  "purchase_link": "https://detail.tmall.com/item.htm?_u=m35gpgurcb55&id=787016696007&spm=a1z09.2.0.0.481e2e8dIgbjjf",
+  "folder_name": "device_32_12v稳压器",
+  "created_at": "2026-04-22T20:25:15",
+  "images": [
+    {
+      "id": 35,
+      "kind": "image",
+      "original_name": "2026-04-22_202442.png",
+      "relative_path": "data/devices/device_32_12v稳压器/images/image_32_20260422202515311915.png"
+    },
+    {
+      "id": 36,
+      "kind": "image",
+      "original_name": "2026-04-22_202500.png",
+      "relative_path": "data/devices/device_32_12v稳压器/images/image_32_20260422202515312458.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

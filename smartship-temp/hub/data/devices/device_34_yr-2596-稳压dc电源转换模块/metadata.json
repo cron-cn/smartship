@@ -1,0 +1,32 @@
+{
+  "id": 34,
+  "device_code": "32",
+  "device_name": "YR-2596/稳压DC电源转换模块",
+  "display_name": "YR-2596/稳压DC电源转换模块",
+  "voltage": "7-30v输入/3.3-5v-可调输出",
+  "current": "2A，连续1.5A",
+  "quantity_normal": "3(装船2)",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "",
+  "purchase_link": "https://item.taobao.com/item.htm?_u=m35gpgur2d70&id=722918178110&spm=a1z09.2.0.0.481e2e8dIgbjjf",
+  "folder_name": "device_34_yr-2596-稳压dc电源转换模块",
+  "created_at": "2026-04-22T20:29:08",
+  "images": [
+    {
+      "id": 38,
+      "kind": "image",
+      "original_name": "2026-04-22_202752.png",
+      "relative_path": "data/devices/device_34_yr-2596-稳压dc电源转换模块/images/image_34_20260422202908669822.png"
+    },
+    {
+      "id": 39,
+      "kind": "image",
+      "original_name": "2026-04-22_202756.png",
+      "relative_path": "data/devices/device_34_yr-2596-稳压dc电源转换模块/images/image_34_20260422202908670507.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>编辑设备 - 输入密码</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="page-shell home-shell">
+    <section class="hero home-hero">
+      <div>
+        <p class="eyebrow">编辑入口</p>
+        <h1>编辑设备需要密码</h1>
+        <p class="subhead">输入密码后会进入设备列表页，才能新增、修改和删除设备。</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-label">状态</div>
+        <div class="hero-card-value">{% if can_edit %}已解锁{% else %}未解锁{% endif %}</div>
+        <div class="hero-card-label">密码后页面</div>
+        <div class="hero-card-value">设备列表</div>
+      </div>
+    </section>
+
+    <section class="panel gate-panel">
+      <div class="access-form gate-form">
+        <p>编辑权限已启用，可直接进入设备列表进行新增、修改和删除操作。</p>
+        <a class="btn-primary" href="{{ url_for('devices_page') }}">进入设备列表</a>
+      </div>
+      <div class="detail-toolbar">
+        <a class="page-link" href="{{ url_for('index') }}">返回首页</a>
+        <a class="page-link" href="{{ url_for('devices_page') }}" target="_blank" rel="noreferrer">先查看设备</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

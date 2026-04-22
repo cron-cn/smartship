@@ -1,0 +1,16 @@
+{
+  "id": 16,
+  "device_code": "14",
+  "device_name": "BTS7960大功率智能车电机驱动板",
+  "display_name": "BTS7960大功率智能车电机驱动板",
+  "voltage": "输入电压6-27V/输入电平3.3-5V",
+  "current": "43A",
+  "quantity_normal": "2",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "",
+  "purchase_link": "https://detail.tmall.com/item.htm?_u=m35gpgur4b1d&id=610652011145&spm=a1z09.2.0.0.481e2e8dIgbjjf",
+  "folder_name": "device_16_bts7960大功率智能车电机驱动板",
+  "created_at": "2026-04-22T19:54:00"
+}

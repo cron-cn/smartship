@@ -1,0 +1,11 @@
+{
+  "device_name": "维杜卡电机",
+  "voltage": "7.4-12V",
+  "current": "",
+  "quantity_normal": "4",
+  "quantity_broken": "",
+  "remarks": "7.4V 390马达 8000转\n12V          12000转",
+  "purchase_link": "",
+  "device_status": "已入库",
+  "updated_at": "2026-04-22T21:01:34"
+}

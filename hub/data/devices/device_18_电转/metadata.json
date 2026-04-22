@@ -1,0 +1,26 @@
+{
+  "id": 18,
+  "device_code": "16",
+  "device_name": "电转",
+  "display_name": "电转",
+  "voltage": "",
+  "current": "",
+  "quantity_normal": "1",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "",
+  "purchase_link": "https://detail.tmall.com/item.htm?_u=m35gpgurd825&id=676068221088&spm=a1z09.2.0.0.481e2e8dIgbjjf",
+  "folder_name": "device_18_电转",
+  "created_at": "2026-04-22T19:56:06",
+  "images": [
+    {
+      "id": 20,
+      "kind": "image",
+      "original_name": "2026-04-22_195540.png",
+      "relative_path": "data/devices/device_18_电转/images/image_18_20260422195606066509.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

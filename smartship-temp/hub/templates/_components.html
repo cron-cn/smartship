@@ -1,0 +1,149 @@
+{% macro device_row(device, can_edit=False, selected_category_id=None) -%}
+<tr data-id="{{ device.id }}" data-search="{{ device.id }} {{ device.device_code or '' }} {{ device.display_name }}">
+  <td>
+    <div class="cell-id">{{ device.device_code or device.id }}</div>
+    <div class="cell-subid">sys: {{ device.id }}</div>
+  </td>
+  <td class="cell-preview">
+    {% if device.images and device.images|length > 0 %}
+      <div class="preview-links">
+        {% for image in device.images %}
+          <a href="{{ url_for('device_file', file_id=image.id) }}" class="preview-img-link" data-file-id="{{ image.id }}" data-file-url="{{ url_for('device_file', file_id=image.id) }}">图片{{ loop.index }}</a>{% if not loop.last %} | {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <span class="muted">无图</span>
+    {% endif %}
+  </td>
+  <td>
+    <div class="cell-name">{{ device.display_name }}</div>
+    {% if device.remarks %}<div class="cell-remarks">{{ device.remarks }}</div>{% endif %}
+  </td>
+  <td>
+    {% if device.categories %}
+      <div class="tags">
+        {% for category in device.categories %}<span class="tag">{{ category.group_name }}</span>{% endfor %}
+      </div>
+    {% else %}--{% endif %}
+  </td>
+  <td>
+    <div class="cell-params">
+      {% if device.voltage %}<div>U: {{ device.voltage }}</div>{% endif %}
+      {% if device.current %}<div>I: {{ device.current }}</div>{% endif %}
+    </div>
+  </td>
+  <td>
+    <div class="qty-pill">
+      <span class="qty-normal">{{ device.quantity_normal }} 正常</span>
+      {% if device.quantity_broken and device.quantity_broken|int > 0 %}
+      <span class="qty-broken">{{ device.quantity_broken }} 损坏</span>
+      {% endif %}
+    </div>
+    {% if device.broken_items %}
+      <details class="broken-hint">
+        <summary>查看损坏明细</summary>
+        <ul class="broken-list-sm">
+          {% for item in device.broken_items %}
+            <li>
+              {{ item.reason }}
+              {% if item.image_file_id %}
+                <a href="{{ url_for('device_file', file_id=item.image_file_id) }}" target="_blank">(图)</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    {% endif %}
+  </td>
+  <td>
+     <span class="status-badge">{{ device.device_status }}</span>
+     {% if device.purchase_link %}<a href="{{ device.purchase_link }}" target="_blank" class="buy-link">购买链接</a>{% endif %}
+  </td>
+  <td><span class="folder-name">{{ device.folder_name }}</span></td>
+  <td class="actions-col">
+    <div class="actions">
+      {% if can_edit %}
+        <button class="btn-ghost edit-trigger" data-device='{{ device | tojson | forceescape }}'>编辑</button>
+        <form method="post" action="{{ url_for('delete_device', device_id=device.id) }}" onsubmit="return confirm('确定删除这个设备及其文件夹吗？');" style="margin:0;">
+          <button type="submit" class="btn-danger">删除</button>
+        </form>
+      {% else %}
+        <a class="btn-ghost" href="{{ url_for('devices_page', device_id=device.id, category_id=selected_category_id) if selected_category_id else url_for('devices_page', device_id=device.id) }}" target="_blank">查看</a>
+      {% endif %}
+    </div>
+  </td>
+</tr>
+{%- endmacro %}
+
+{% macro device_detail_card(device) -%}
+<div class="table-wrap detail-table-wrap">
+  <table class="parameter-table detail-table">
+    <tbody>
+      <tr><th>设备ID</th><td>{{ device.device_code or device.id }}</td></tr>
+      <tr><th>设备名称</th><td>{{ device.display_name }}</td></tr>
+      <tr><th>电压</th><td>{{ device.voltage }}</td></tr>
+      <tr><th>电流</th><td>{{ device.current }}</td></tr>
+      <tr><th>正常使用数量</th><td>{{ device.quantity_normal }}</td></tr>
+      <tr>
+        <th>损坏数量</th>
+        <td>
+          {{ device.quantity_broken }}
+          {% if device.broken_items %}
+            <details class="damage-details inline-details">
+              <summary>损坏明细（{{ device.broken_items|length }}）</summary>
+              <ol class="damage-list">
+                {% for item in device.broken_items %}
+                  <li>
+                    <div class="damage-reason">{{ item.reason }}</div>
+                    {% if item.image_file_id %}
+                      <a href="{{ url_for('device_file', file_id=item.image_file_id) }}" target="_blank" rel="noreferrer">{{ item.image_original_name or '查看图片' }}</a>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ol>
+            </details>
+          {% endif %}
+        </td>
+      </tr>
+      <tr><th>其他 / 备注</th><td class="remarks-cell">{{ device.remarks }}</td></tr>
+      <tr>
+        <th>资料附件</th>
+        <td>
+          <div class="attachment-list">
+            {% for attachment in device.attachments %}
+              <a href="{{ url_for('download_file', file_id=attachment.id) }}">{{ attachment.original_name }}</a>
+            {% else %}
+              <span class="muted">无附件</span>
+            {% endfor %}
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>购买链接</th>
+        <td>
+          {% if device.purchase_link %}
+            <a href="{{ device.purchase_link }}" target="_blank" rel="noreferrer">打开链接</a>
+          {% else %}
+            <span class="muted">无</span>
+          {% endif %}
+        </td>
+      </tr>
+      <tr><th>状态</th><td><span class="status-badge">{{ device.device_status }}</span></td></tr>
+      <tr>
+        <th>分类目录</th>
+        <td>
+          {% if device.categories %}
+            <div class="category-tags">
+              {% for category in device.categories %}
+                <span class="category-tag">{{ category.group_name }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            <span class="muted">未分类</span>
+          {% endif %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{%- endmacro %}

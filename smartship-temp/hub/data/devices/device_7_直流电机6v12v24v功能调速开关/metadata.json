@@ -1,0 +1,26 @@
+{
+  "id": 7,
+  "device_code": "6",
+  "device_name": "调速开关",
+  "display_name": "调速开关",
+  "voltage": "pwm调制开关6-28V",
+  "current": "3A",
+  "quantity_normal": "2（装机一个）",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "直流电机6v12v24v功能",
+  "purchase_link": "https://item.taobao.com/item.htm?_u=k35gpgura1f8&id=633832380974&spm=a1z09.2.0.0.321b2e8dmMlq0f",
+  "folder_name": "device_7_直流电机6v12v24v功能调速开关",
+  "created_at": "2026-04-20T23:33:37",
+  "images": [
+    {
+      "id": 6,
+      "kind": "image",
+      "original_name": "2026-04-20_233244.png",
+      "relative_path": "data/devices/device_7_直流电机6v12v24v功能调速开关/images/image_7_20260420233337200305.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

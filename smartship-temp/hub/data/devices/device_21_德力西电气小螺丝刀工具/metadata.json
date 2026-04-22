@@ -1,0 +1,26 @@
+{
+  "id": 21,
+  "device_code": "19",
+  "device_name": "德力西电气小螺丝刀工具",
+  "display_name": "德力西电气小螺丝刀工具",
+  "voltage": "",
+  "current": "",
+  "quantity_normal": "1",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "",
+  "purchase_link": "https://detail.tmall.com/item.htm?_u=m35gpgur0bda&id=884184459536&spm=a1z09.2.0.0.481e2e8dIgbjjf",
+  "folder_name": "device_21_德力西电气小螺丝刀工具",
+  "created_at": "2026-04-22T20:00:34",
+  "images": [
+    {
+      "id": 23,
+      "kind": "image",
+      "original_name": "2026-04-22_200025.png",
+      "relative_path": "data/devices/device_21_德力西电气小螺丝刀工具/images/image_21_20260422200034236442.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

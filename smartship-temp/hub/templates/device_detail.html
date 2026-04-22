@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ device.display_name }} - 设备详情</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='ui.css') }}">
+</head>
+<body>
+  <main class="page-shell detail-shell">
+    <section class="hero detail-hero">
+      <div>
+        <p class="eyebrow">设备查看</p>
+        <h1>{{ device.display_name }}</h1>
+        <p class="subhead">设备ID {{ device.device_code or device.id }}，左侧查看图片，中间核对参数，右侧快速切换设备。</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-label">当前设备ID</div>
+        <div class="hero-card-value">{{ device.device_code or device.id }}</div>
+        <div class="hero-card-label">文件夹</div>
+        <div class="hero-card-value">{{ device.folder_name }}</div>
+      </div>
+    </section>
+
+    <section class="panel detail-toolbar">
+      <div class="detail-toolbar-title">
+        <h2>查看设备</h2>
+        <p>这是纯查看页，不包含编辑控件。</p>
+      </div>
+      <div class="detail-toolbar-actions">
+        <div class="nav-buttons">
+          {% if navigation.previous_id %}
+            <a id="nav-prev" class="btn-ghost" href="{{ url_for('device_detail_page', device_id=navigation.previous_id, category_id=category_id) }}">← 上一台</a>
+          {% else %}
+            <button class="btn-ghost disabled" disabled>← 上一台</button>
+          {% endif %}
+
+          {% if navigation.next_id %}
+            <a id="nav-next" class="btn-ghost" href="{{ url_for('device_detail_page', device_id=navigation.next_id, category_id=category_id) }}">下一台 →</a>
+          {% else %}
+            <button class="btn-ghost disabled" disabled>下一台 →</button>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-columns">
+      <aside class="panel detail-panel detail-sidebar-panel">
+        <div class="panel-header">
+          <div>
+            <h2>设备列表</h2>
+            <p>只显示设备 ID 和名称，点击可直接切换。</p>
+          </div>
+        </div>
+        <label class="sidebar-search-box">
+          <span>搜索设备 ID / 名称</span>
+          <input id="sidebar-device-search" type="search" placeholder="输入设备 ID 或名称快速查找">
+        </label>
+        <div class="sidebar-device-list">
+          {% from '_sidebar_components.html' import sidebar_device_item %}
+          {% for item in sidebar_devices %}
+            {{ sidebar_device_item(item, device.id) }}
+          {% else %}
+            <div class="empty-state">没有可显示的设备。</div>
+          {% endfor %}
+        </div>
+      </aside>
+
+      <div class="detail-right">
+        <section class="panel detail-panel detail-info-panel">
+          <div class="panel-header">
+            <div>
+              <h2>设备参数</h2>
+              <p>下面是和编辑页一致的参数结构，适合快速核对信息。</p>
+            </div>
+          </div>
+
+          {# 使用组件宏渲染详情参数卡片 #}
+          {% from '_components.html' import device_detail_card %}
+          {{ device_detail_card(device) }}
+        </section>
+
+        <section class="panel detail-panel detail-media-panel">
+          <div class="panel-header">
+            <div>
+              <h2>设备图片</h2>
+              <p>点击图片放大查看。</p>
+            </div>
+          </div>
+          <div class="detail-gallery">
+            {% for image in device.images %}
+              <button
+                type="button"
+                class="detail-gallery-card"
+                data-preview-src="{{ url_for('device_file', file_id=image.id) }}"
+                data-preview-title="{{ image.original_name }}"
+              >
+                <img src="{{ url_for('device_file', file_id=image.id) }}" alt="{{ device.display_name }}" loading="lazy" decoding="async">
+                <span>{{ image.original_name }}</span>
+              </button>
+            {% else %}
+              <div class="empty-state">没有上传图片。</div>
+            {% endfor %}
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="image-viewer" id="image-viewer" aria-hidden="true">
+      <div class="image-viewer-backdrop" data-close-viewer></div>
+      <div class="image-viewer-card" role="dialog" aria-modal="true" aria-labelledby="image-viewer-title">
+        <div class="image-viewer-head">
+          <div>
+            <div class="image-viewer-label">图片预览</div>
+            <h2 id="image-viewer-title">查看图片</h2>
+          </div>
+          <div class="image-viewer-actions">
+            <a class="page-link" id="image-viewer-open" href="#" target="_blank" rel="noreferrer">新标签页打开</a>
+            <button type="button" class="ghost" data-close-viewer>关闭</button>
+          </div>
+        </div>
+        <div class="image-viewer-stage">
+          <img id="image-viewer-image" alt="图片预览">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const sidebarSearch = document.getElementById('sidebar-device-search');
+    const viewer = document.getElementById('image-viewer');
+    const viewerImage = document.getElementById('image-viewer-image');
+    const viewerTitle = document.getElementById('image-viewer-title');
+    const viewerOpen = document.getElementById('image-viewer-open');
+
+    function openViewer(src, title) {
+      if (!viewer || !viewerImage || !viewerTitle || !viewerOpen) {
+        return;
+      }
+      viewerImage.src = src;
+      viewerImage.alt = title || '图片预览';
+      viewerTitle.textContent = title || '查看图片';
+      viewerOpen.href = src;
+      viewer.classList.add('open');
+      viewer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeViewer() {
+      if (!viewer || !viewerImage) {
+        return;
+      }
+      viewer.classList.remove('open');
+      viewer.setAttribute('aria-hidden', 'true');
+      viewerImage.src = '';
+    }
+
+    const gallery = document.querySelector('.detail-gallery');
+    if (gallery) {
+      gallery.addEventListener('click', (e) => {
+        const btn = e.target.closest && e.target.closest('.detail-gallery-card');
+        if (!btn) return;
+        openViewer(btn.dataset.previewSrc, btn.dataset.previewTitle);
+      });
+    }
+
+    /* 侧边栏搜索逻辑由 /static/ui.js 负责 */
+
+    viewer.addEventListener('click', (event) => {
+      if (event.target.hasAttribute('data-close-viewer')) {
+        closeViewer();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && viewer.classList.contains('open')) {
+        closeViewer();
+      }
+    });
+    // 左右键切换设备（如存在上一/下一设备链接）
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'ArrowLeft' || ev.key === 'ArrowRight') {
+        const prev = document.getElementById('nav-prev');
+        const next = document.getElementById('nav-next');
+        if (ev.key === 'ArrowLeft' && prev && prev.href) {
+          window.location.href = prev.href;
+        }
+        if (ev.key === 'ArrowRight' && next && next.href) {
+          window.location.href = next.href;
+        }
+      }
+    });
+  </script>
+  <script src="{{ url_for('static', filename='ui.js') }}"></script>
+</body>
+</html>

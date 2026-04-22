@@ -1,0 +1,26 @@
+{
+  "id": 15,
+  "device_code": "13",
+  "device_name": "esp32专用供电",
+  "display_name": "esp32专用供电",
+  "voltage": "3.3v/5v/12v转3.3v",
+  "current": "",
+  "quantity_normal": "3（大电芯*1）",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "只给esp32供电",
+  "purchase_link": "https://detail.tmall.com/item.htm?_u=m35gpgur7aa8&id=867404375743&spm=a1z09.2.0.0.481e2e8dIgbjjf",
+  "folder_name": "device_15_esp32专用供电",
+  "created_at": "2026-04-22T19:51:39",
+  "images": [
+    {
+      "id": 15,
+      "kind": "image",
+      "original_name": "2026-04-22_194934.png",
+      "relative_path": "data/devices/device_15_esp32专用供电/images/image_15_20260422195139977493.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

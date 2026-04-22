@@ -1,0 +1,41 @@
+/* UI 组件样式：按钮、表单控件、通用间距，独立于主样式以便主题切换 */
+:root {
+  --btn-radius: 10px;
+  --input-radius: 10px;
+  --btn-padding-y: 10px;
+  --btn-padding-x: 18px;
+}
+
+/* Buttons */
+.btn { font-family: inherit; cursor: pointer; transition: 0.14s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; }
+.btn-primary { background: var(--primary); color: white; border: none; padding: var(--btn-padding-y) var(--btn-padding-x); border-radius: var(--btn-radius); font-size: 0.98rem; box-shadow: var(--shadow-sm); }
+.btn-ghost { background: transparent; border: 1px solid var(--border); padding: 9px 14px; border-radius: var(--btn-radius); }
+.btn-danger { background: var(--danger); color: white; border: none; padding: 9px 12px; border-radius: 8px; }
+
+/* Inputs */
+.input-field { width: 100%; border: 1px solid var(--border); border-radius: var(--input-radius); padding: 10px 14px; font-size: 1rem; outline: none; background: var(--surface); color: inherit; }
+.input-field:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(13,148,136,0.08); }
+
+/* Small utilities */
+.w-full { width: 100%; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+.mt-4 { margin-top: 16px; }
+.mb-2 { margin-bottom: 8px; }
+
+/* Tag styles */
+.tag { display:inline-block; background:var(--primary-bg); color:var(--primary); padding:4px 8px; border-radius:8px; font-size:0.85rem; margin-right:6px; }
+
+/* 侧栏设备列表改为垂直卡片样式 */
+.sidebar-device-list { display: flex; flex-direction: column; gap: 8px; }
+.sidebar-device-item { display: block; padding: 10px 12px; border-radius: 8px; background: var(--surface); border: 1px solid var(--border); color: inherit; text-decoration: none; }
+.sidebar-device-item .sidebar-device-id { display: block; font-weight: 700; color: var(--muted-foreground); }
+.sidebar-device-item .sidebar-device-name { display: block; font-size: 0.95rem; color: inherit; margin-top: 4px; }
+.sidebar-device-item.active { background: linear-gradient(90deg, rgba(13,148,136,0.06), transparent); border-color: rgba(13,148,136,0.12); }
+
+/* 在窄屏上保持紧凑 */
+@media (max-width: 700px) {
+  .sidebar-device-list { gap: 6px; }
+  .sidebar-device-item { padding: 8px 10px; font-size: 0.95rem; }
+}
+

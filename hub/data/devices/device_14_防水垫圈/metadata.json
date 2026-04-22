@@ -1,0 +1,26 @@
+{
+  "id": 14,
+  "device_code": "12",
+  "device_name": "防水垫圈",
+  "display_name": "防水垫圈",
+  "voltage": "",
+  "current": "",
+  "quantity_normal": "50",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "M5*20*2mm\r\nM6*20*2mm",
+  "purchase_link": "https://detail.tmall.com/item.htm?_u=m35gpgur3814&id=738920890255&spm=a1z09.2.0.0.481e2e8dIgbjjf",
+  "folder_name": "device_14_防水垫圈",
+  "created_at": "2026-04-22T19:47:49",
+  "images": [
+    {
+      "id": 14,
+      "kind": "image",
+      "original_name": "2026-04-22_194600.png",
+      "relative_path": "data/devices/device_14_防水垫圈/images/image_14_20260422194749012553.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

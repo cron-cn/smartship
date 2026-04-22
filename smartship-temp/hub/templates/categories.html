@@ -1,0 +1,96 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>分类目录</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='ui.css') }}">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">设备分类</p>
+        <h1>分类目录</h1>
+        <p class="subhead">这里单独管理目录名称和设备编号关联，点击分类卡片会回到设备列表并按分类筛选。</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-label">分类总数</div>
+        <div class="hero-card-value">{{ categories|length }} 个</div>
+        <div class="hero-card-label">设备总数</div>
+        <div class="hero-card-value">{{ all_devices|length }} 条</div>
+      </div>
+    </section>
+
+    <section class="panel launch-toolbar">
+      <a class="page-link" href="{{ url_for('index') }}">返回首页</a>
+      <a class="page-link" href="{{ url_for('devices_page') }}" target="_blank" rel="noreferrer">打开设备列表</a>
+    </section>
+
+    <section class="panel category-panel">
+      <div class="panel-header">
+        <div>
+          <h2>确认归类</h2>
+          <p>输入目录名称后，选择要归类的设备编号，系统会在本地创建对应分类文件夹。</p>
+        </div>
+      </div>
+
+      <div class="category-layout">
+        <form class="category-form" method="post" action="{{ url_for('create_category') }}">
+          <fieldset class="form-lock" {% if not can_edit %}disabled{% endif %}>
+            <label class="field">
+              <span>新建目录名称（优先）</span>
+              <input name="group_name" type="text" placeholder="输入新目录名称，或留空选择已有目录" class="input-field" />
+            </label>
+            <label class="field">
+              <span>选择已有目录（如果不新建）</span>
+              <select name="existing_group" class="input-field">
+                <option value="" selected>选择目标目录</option>
+                {% for c in categories %}
+                  <option value="{{ c.group_name }}">{{ c.group_name }}</option>
+                {% endfor %}
+              </select>
+            </label>
+            <label class="field">
+              <span>选择设备</span>
+              <select name="device_ids" multiple size="8" class="input-field" style="height:220px;">
+                {% for device in all_devices %}
+                  <option value="{{ device.id }}">{{ device.device_code or device.id }} - {{ device.device_name or '未命名设备' }}</option>
+                {% endfor %}
+              </select>
+            </label>
+            <button type="submit" class="btn-primary">确认归类</button>
+          </fieldset>
+        </form>
+
+        <div class="category-list">
+          {% for category in categories %}
+            <div class="category-card">
+              <a class="category-card-open" href="{{ url_for('devices_page', category_id=category.id) }}" target="_blank" rel="noreferrer">
+                <div class="category-card-title">{{ category.group_name }}</div>
+                <div class="category-card-meta">{{ category.device_count }} 台设备</div>
+                <div class="category-card-folder">{{ category.folder_name }}</div>
+              </a>
+              {% if can_edit %}
+                <form class="category-inline-form" method="post" action="{{ url_for('rename_category', category_id=category.id) }}">
+                  <input name="group_name" type="text" value="{{ category.group_name }}" aria-label="重命名目录" class="input-field" style="width:180px; display:inline-block;">
+                  <button type="submit" class="btn-ghost">重命名</button>
+                </form>
+                <form method="post" action="{{ url_for('delete_category', category_id=category.id) }}" onsubmit="return confirm('确定删除这个分类目录吗？');" style="display:inline-block; margin-left:8px;">
+                  <button type="submit" class="btn btn-danger">删除</button>
+                </form>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="empty-state">还没有创建任何分类目录。</div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+
+
+

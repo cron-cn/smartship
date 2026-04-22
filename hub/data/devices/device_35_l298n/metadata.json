@@ -1,0 +1,39 @@
+{
+  "id": 35,
+  "device_code": "33",
+  "device_name": "L298N",
+  "display_name": "L298N",
+  "voltage": "5-7V逻辑电压",
+  "current": "2A/桥",
+  "quantity_normal": "6",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "",
+  "purchase_link": "https://detail.tmall.com/item.htm?ali_refid=a3_420434_1006%3A1256430174%3AH%3AMeYLkG564EJe8gsMYa2XEjVt9Q0NFo%2BR%3Ac787115bd25184f3f93ef490d9264a25&ali_trackid=282_c787115bd25184f3f93ef490d9264a25&id=616558401543&mi_id=0000GnrgoUuLPoVKPjt3LGSaugfWYX4UxNo9gROUtkixN7k&mm_sceneid=1_0_666480043_0&skuId=4346322752824&spm=a21n57.1.hoverItem.2&utparam=%7B%22aplus_abtest%22%3A%229a69b82601af6314aa695a98f746b987%22%7D&xxc=ad_ztc",
+  "folder_name": "device_35_l298n",
+  "created_at": "2026-04-22T20:33:12",
+  "images": [
+    {
+      "id": 40,
+      "kind": "image",
+      "original_name": "2026-04-22_203028.png",
+      "relative_path": "data/devices/device_35_l298n/images/image_35_20260422203312239116.png"
+    },
+    {
+      "id": 41,
+      "kind": "image",
+      "original_name": "2026-04-22_203215.png",
+      "relative_path": "data/devices/device_35_l298n/images/image_35_20260422203312239679.png"
+    }
+  ],
+  "attachments": [
+    {
+      "id": 42,
+      "kind": "attachment",
+      "original_name": "b2741-main.zip",
+      "relative_path": "data/devices/device_35_l298n/attachments/attachment_35_20260422203610900852.zip"
+    }
+  ],
+  "broken_images": []
+}

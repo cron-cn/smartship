@@ -1,0 +1,16 @@
+{
+  "id": 30,
+  "device_code": "28",
+  "device_name": "洞洞板",
+  "display_name": "洞洞板",
+  "voltage": "",
+  "current": "",
+  "quantity_normal": "10",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "2.54 单面 镀锡板 5*5cm",
+  "purchase_link": "https://detail.tmall.com/item.htm?_u=m35gpgur69e2&id=619035415749&skuId=4368959501685&spm=a1z09.2.0.0.481e2e8dIgbjjf",
+  "folder_name": "device_30_洞洞板",
+  "created_at": "2026-04-22T20:16:49"
+}

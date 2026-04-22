@@ -1,0 +1,26 @@
+{
+  "id": 6,
+  "device_code": "5",
+  "device_name": "充电模块",
+  "display_name": "充电模块",
+  "voltage": "5v/3.7v/4.2v",
+  "current": "2a",
+  "quantity_normal": "2",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "自购\r\n\r\n2A 5V锂电池充放电一体模块3.7V 4.2V（1个",
+  "purchase_link": "https://detail.tmall.com/item.htm?_u=k35gpgurbc0d&id=677456511513&spm=a1z09.2.0.0.321b2e8dmMlq0f",
+  "folder_name": "device_6_2a-5v锂电池充放电一体模块3-7v-4-2v-1个",
+  "created_at": "2026-04-20T23:32:13",
+  "images": [
+    {
+      "id": 5,
+      "kind": "image",
+      "original_name": "2026-04-20_233110.png",
+      "relative_path": "data/devices/device_6_2a-5v锂电池充放电一体模块3-7v-4-2v-1个/images/image_6_20260420233213174156.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

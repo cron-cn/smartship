@@ -1,0 +1,26 @@
+{
+  "id": 19,
+  "device_code": "17",
+  "device_name": "704硅橡胶电子防水密封胶",
+  "display_name": "704硅橡胶电子防水密封胶",
+  "voltage": "",
+  "current": "",
+  "quantity_normal": "3",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "",
+  "purchase_link": "https://item.taobao.com/item.htm?_u=m35gpgurd28a&id=768734515804&spm=a1z09.2.0.0.481e2e8dIgbjjf",
+  "folder_name": "device_19_704硅橡胶电子防水密封胶",
+  "created_at": "2026-04-22T19:57:02",
+  "images": [
+    {
+      "id": 21,
+      "kind": "image",
+      "original_name": "2026-04-22_195656.png",
+      "relative_path": "data/devices/device_19_704硅橡胶电子防水密封胶/images/image_19_20260422195702598404.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

@@ -1,0 +1,32 @@
+{
+  "id": 12,
+  "device_code": "11",
+  "device_name": "稳压器——低纹波效率95%车载12a稳压电源",
+  "display_name": "稳压器——低纹波效率95%车载12a稳压电源",
+  "voltage": "12v",
+  "current": "12AMAX，额定8A",
+  "quantity_normal": "4（装船1）",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "",
+  "purchase_link": "https://detail.tmall.com/item.htm?_u=l35gpgurb61e&id=558958358157&spm=a1z09.2.0.0.7c942e8dBgp3PK",
+  "folder_name": "device_12_低纹波效率95-车载12a稳压电源",
+  "created_at": "2026-04-21T13:05:47",
+  "images": [
+    {
+      "id": 12,
+      "kind": "image",
+      "original_name": "2026-04-21_130429.png",
+      "relative_path": "data/devices/device_12_低纹波效率95-车载12a稳压电源/images/image_12_20260421130547116337.png"
+    },
+    {
+      "id": 13,
+      "kind": "image",
+      "original_name": "2026-04-21_130457.png",
+      "relative_path": "data/devices/device_12_低纹波效率95-车载12a稳压电源/images/image_12_20260421130547117120.png"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}

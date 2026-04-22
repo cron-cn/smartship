@@ -1,0 +1,19 @@
+{
+  "id": 40,
+  "device_code": "38",
+  "device_name": "RF-370电机",
+  "display_name": "RF-370电机",
+  "voltage": "3-6V额定3.7V",
+  "current": "0.06A空载",
+  "quantity_normal": "2",
+  "quantity_broken": "",
+  "broken_details": [],
+  "device_status": "已入库",
+  "remarks": "RF-370-25117E",
+  "purchase_link": "https://item.taobao.com/item.htm?_u=m35gpgur652f&id=775659308685&spm=a1z09.2.0.0.2e962e8dkysjwA",
+  "folder_name": "device_40_rf-370电机",
+  "created_at": "2026-04-22T20:58:14",
+  "images": [],
+  "attachments": [],
+  "broken_images": []
+}

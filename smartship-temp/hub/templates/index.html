@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>实验室设备管理表</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='ui.css') }}">
+</head>
+<body data-can-edit="{{ 'true' if can_edit else 'false' }}">
+  <div class="toast-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="toast toast-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  {# 引入可复用组件宏 #}
+  {% from '_components.html' import device_row %}
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="brand-icon"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <div>
+            <h1>实验室设备表</h1>
+            <span class="db-badge">data/lab_equipment.db</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-section">
+           <h3>数据导入</h3>
+           <form class="sidebar-form" method="post" action="{{ url_for('import_devices') }}" enctype="multipart/form-data">
+            <fieldset {% if not can_edit %}disabled{% endif %} style="border:none; padding:0; margin:0;">
+              <label class="file-label">
+                <span>选择 CSV 文件</span>
+                <input name="import_file" type="file" accept=".csv" required>
+              </label>
+              <button type="submit" class="btn-primary w-full">开始导入</button>
+            </fieldset>
+          </form>
+        </div>
+
+        <div class="sidebar-section">
+           <h3>分类目录</h3>
+           <div class="cat-list">
+             <a class="cat-item {% if not selected_category_id %}active{% endif %}" href="{{ url_for('devices_page') }}">
+               <span class="cat-name">全部设备</span>
+               <span class="cat-count">{{ all_devices|length }}</span>
+             </a>
+             {% for category in categories %}
+             <a class="cat-item {% if selected_category_id == category.id %}active{% endif %}" href="{{ url_for('devices_page', category_id=category.id) }}">
+               <span class="cat-name">{{ category.group_name }}</span>
+               <span class="cat-count">{{ category.device_count }}</span>
+             </a>
+             {% else %}
+               <span class="empty-hint" style="font-size:13px;color:var(--text-muted);">暂无分类</span>
+             {% endfor %}
+           </div>
+        </div>
+
+        <!-- 已移除快速归类模块：避免与分类页面重复功能 -->
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="access-box is-open">
+             <div class="access-head">
+               <span>编辑模式</span>
+             </div>
+             <form method="post" action="{{ url_for('lock_editing') }}">
+               <button type="submit" class="btn-ghost w-full">退出编辑</button>
+             </form>
+          </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar top-fixed">
+         <div class="top-bar-left">
+           {% if can_edit %}
+           <div class="search-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input id="device-search" type="search" placeholder="搜索设备 ID 或名称...">
+           </div>
+           {% endif %}
+         </div>
+         <div class="top-bar-right">
+            <div class="pagination">
+              {% if page > 1 %}
+                <a class="btn-icon" href="{{ url_for('devices_page', page=page - 1, category_id=selected_category_id) if selected_category_id else url_for('devices_page', page=page - 1) }}">&larr;</a>
+              {% else %}
+                <span class="btn-icon disabled">&larr;</span>
+              {% endif %}
+              <span class="page-info">{{ page }} / {{ total_pages }}</span>
+              {% if page < total_pages %}
+                <a class="btn-icon" href="{{ url_for('devices_page', page=page + 1, category_id=selected_category_id) if selected_category_id else url_for('devices_page', page=page + 1) }}">&rarr;</a>
+              {% else %}
+                <span class="btn-icon disabled">&rarr;</span>
+              {% endif %}
+            </div>
+            {% if can_edit %}
+              <button class="btn-primary" id="open-add-drawer">
+                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                 新增设备
+              </button>
+            {% endif %}
+         </div>
+      </header>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>编号</th>
+              <th>图片</th>
+              <th>设备名称</th>
+              <th>分类</th>
+              <th>参数</th>
+              <th>数量</th>
+              <th>状态</th>
+              <th>所在文件夹</th>
+              <th class="actions-col">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for device in devices %}
+              {{ device_row(device, can_edit, selected_category_id) }}
+            {% else %}
+              <tr>
+                <td colspan="9" class="empty-state">
+                  <div style="padding:40px 0; text-align:center; color:var(--text-muted)">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    <p>当前列表为空</p>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  {% if can_edit %}
+  <div class="drawer-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
+
+  <!-- Add Drawer -->
+  <div class="drawer" id="add-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>新增设备</h2>
+      <button class="icon-btn drawer-close" data-target="add-drawer"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    </div>
+    <div class="drawer-body">
+      <form class="drawer-form" id="device-form" method="post" action="{{ url_for('add_device') }}" enctype="multipart/form-data" data-autosave-key="{{ autosave_key }}">
+        <div class="form-cols">
+          <div class="form-col">
+            <label class="field"><span>设备ID</span><input name="device_code" type="text" placeholder="例如：A-001" class="input-field"></label>
+            <label class="field"><span>设备名称</span><input name="device_name" type="text" placeholder="例如：恒温培养箱" class="input-field"></label>
+            <label class="field"><span>电压</span><input name="voltage" type="text" class="input-field"></label>
+            <label class="field"><span>电流</span><input name="current" type="text" class="input-field"></label>
+            <label class="field"><span>正常数量 (直接数字或者文本)</span><input name="quantity_normal" type="text" class="input-field"></label>
+            <label class="field"><span>损坏数量 (数字)</span><input name="quantity_broken" type="text" class="input-field"></label>
+            <label class="field"><span>备注</span><textarea name="remarks" rows="3" class="input-field"></textarea></label>
+            <label class="field">
+              <span>状态</span>
+              <select name="device_status" class="input-field">
+                <option value="拟采购">拟采购</option>
+                <option value="已采购，未入库">已采购，未入库</option>
+                <option value="已入库">已入库</option>
+              </select>
+            </label>
+            <label class="field"><span>购买链接</span><input name="purchase_link" type="url" class="input-field"></label>
+            <label class="field"><span>分类标签</span>
+              <select name="category_ids" multiple size="6" class="input-field">
+                {% for cat in categories %}
+                  <option value="{{ cat.id }}">{{ cat.group_name }}</option>
+                {% else %}
+                  <option disabled>暂无分类</option>
+                {% endfor %}
+              </select>
+            </label>
+          </div>
+          <div class="form-col bg-panel">
+            <div class="panel-section">
+              <label class="field"><span>图片 (最多3张)</span>
+                <div class="dropzone">
+                  <input id="images" name="images" type="file" accept="image/*" multiple>
+                  <div class="dz-msg">点击选择图片...</div>
+                </div>
+              </label>
+              <div id="image-preview" class="preview-grid"></div>
+              <label class="field mt-3"><span>附件</span><input name="attachments" type="file" multiple class="input-field"></label>
+            </div>
+            <div class="panel-section">
+              <h4>损坏明细</h4>
+              <div id="add-broken-list" class="broken-editor-list"></div>
+              <button type="button" class="btn-ghost btn-sm mt-2 add-broken-row" data-target="add-broken-list">+ 添加损坏原因</button>
+            </div>
+          </div>
+        </div>
+        <div class="drawer-footer">
+          <button type="button" class="btn-ghost" id="clear-draft-btn">清除草稿</button>
+          <div class="spacer"></div>
+          <button type="button" class="btn-ghost drawer-close" data-target="add-drawer">取消</button>
+          <button type="submit" class="btn-primary">保存设备</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Drawer -->
+  <div class="drawer" id="edit-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>编辑设备</h2>
+      <div class="drawer-nav-actions">
+        <button class="icon-btn" id="edit-prev" title="编辑上一条"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg></button>
+        <button class="icon-btn" id="edit-next" title="编辑下一条"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="nav-sep"></div>
+        <button class="icon-btn drawer-close" data-target="edit-drawer"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+      </div>
+    </div>
+    <div class="drawer-body">
+      <form class="drawer-form" id="edit-form" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="page" value="{{ page }}">
+        <div class="form-cols">
+          <div class="form-col">
+            <label class="field"><span>设备ID</span><input name="device_code" type="text" class="input-field"></label>
+            <label class="field"><span>设备名称</span><input name="device_name" type="text" class="input-field"></label>
+            <label class="field"><span>电压</span><input name="voltage" type="text" class="input-field"></label>
+            <label class="field"><span>电流</span><input name="current" type="text" class="input-field"></label>
+            <label class="field"><span>正常数量</span><input name="quantity_normal" type="text" class="input-field"></label>
+            <label class="field"><span>损坏数量</span><input name="quantity_broken" type="text" class="input-field"></label>
+            <label class="field"><span>备注</span><textarea name="remarks" rows="3" class="input-field"></textarea></label>
+            <label class="field">
+              <span>状态</span>
+              <select name="device_status" class="input-field">
+                <option value="拟采购">拟采购</option>
+                <option value="已采购，未入库">已采购，未入库</option>
+                <option value="已入库">已入库</option>
+              </select>
+            </label>
+            <label class="field"><span>购买链接</span><input name="purchase_link" type="url" class="input-field"></label>
+            <label class="field"><span>分类标签</span>
+              <select name="category_ids" multiple size="6" class="input-field">
+                {% for cat in categories %}
+                  <option value="{{ cat.id }}">{{ cat.group_name }}</option>
+                {% else %}
+                  <option disabled>暂无分类</option>
+                {% endfor %}
+              </select>
+            </label>
+          </div>
+          <div class="form-col bg-panel">
+            <div class="panel-section">
+              <label class="field"><span>新增图片</span><input name="images" type="file" accept="image/*" multiple class="input-field"></label>
+              <label class="field mt-3"><span>新增附件</span><input name="attachments" type="file" multiple class="input-field"></label>
+            </div>
+            
+            <div class="panel-section">
+              <h4 style="margin-top:20px;">现有损坏记录</h4>
+              <div class="existing-broken-list" id="edit-existing-broken-list"></div>
+              
+              <h4 class="mt-4" style="margin-top:20px;">新增损坏明细</h4>
+              <div id="edit-broken-list" class="broken-editor-list mt-2"></div>
+              <button type="button" class="btn-ghost btn-sm mt-2 add-broken-row" data-target="edit-broken-list">+ 补充损坏原因</button>
+            </div>
+          </div>
+        </div>
+        <div class="drawer-footer">
+          <div class="spacer"></div>
+          <button type="button" class="btn-ghost drawer-close" data-target="edit-drawer">取消</button>
+          <button type="submit" class="btn-primary">保存修改</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+
+  <script>
+    const canEdit = document.body.dataset.canEdit === 'true';
+    const form = document.getElementById('device-form');
+    const imagesInput = document.getElementById('images');
+    const preview = document.getElementById('image-preview');
+    const clearDraftBtn = document.getElementById('clear-draft-btn');
+    const editForm = document.getElementById('edit-form');
+    const editableFields = ['device_code', 'device_name', 'voltage', 'current', 'quantity_normal', 'quantity_broken', 'remarks', 'purchase_link', 'device_status'];
+    const deviceSearchInput = document.getElementById('device-search');
+
+    /* Drawers Logic */
+    const backdrop = document.getElementById('drawer-backdrop');
+    function openDrawer(id) {
+      if(!backdrop) return;
+      backdrop.setAttribute('aria-hidden', 'false');
+      document.getElementById(id).setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawers() {
+      if(!backdrop) return;
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.querySelectorAll('.drawer').forEach(d => d.setAttribute('aria-hidden', 'true'));
+      document.body.style.overflow = '';
+      if(editForm) {
+        editForm.reset();
+        editForm.action = '';
+      }
+    }
+    document.querySelectorAll('.drawer-close').forEach(btn => {
+      btn.addEventListener('click', closeDrawers);
+    });
+    if(backdrop) backdrop.addEventListener('click', closeDrawers);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawers();
+    });
+
+    const addBtn = document.getElementById('open-add-drawer');
+    if (addBtn) addBtn.addEventListener('click', () => openDrawer('add-drawer'));
+
+
+    /* 编辑模态（openEditModal）与列表索引（updateEditList）已模块化至 /static/ui.js */
+
+    /* edit-trigger 的事件由 /static/ui.js 委托处理，避免重复绑定 */
+
+    const editPrev = document.getElementById('edit-prev');
+    const editNext = document.getElementById('edit-next');
+    if(editPrev) editPrev.addEventListener('click', (e) => {
+      e.preventDefault();
+      if(currentEditIndex > 0) openEditModal(allDevicesForEdit[currentEditIndex - 1]);
+    });
+    if(editNext) editNext.addEventListener('click', (e) => {
+      e.preventDefault();
+      if(currentEditIndex < allDevicesForEdit.length - 1) openEditModal(allDevicesForEdit[currentEditIndex + 1]);
+    });
+
+
+    /* Broken Row Generation */
+    function getBrokenList(container) { return container.querySelectorAll('.b-row'); }
+    function renumberBrokenRows(container) {
+      getBrokenList(container).forEach((row, index) => {
+        const number = row.querySelector('.b-idx');
+        if (number) number.textContent = String(index + 1);
+      });
+    }
+    function createBrokenRow(container, reason = '') {
+      const index = Number(container.dataset.nextIndex || '1');
+      container.dataset.nextIndex = String(index + 1);
+      
+      const row = document.createElement('div');
+      row.className = 'b-row';
+      row.dataset.index = String(index);
+      
+      row.innerHTML = `
+        <div class="b-idx">${index}</div>
+        <div class="b-inputs">
+          <input name="broken_reason_${index}" type="text" class="input-field" placeholder="损坏原因" value="${reason}">
+          <input name="broken_image_${index}" type="file" accept="image/*" class="input-field">
+        </div>
+        <button type="button" class="icon-btn btn-danger-text remove-broken-row" style="margin-top:6px;">&times;</button>
+      `;
+      container.appendChild(row);
+      renumberBrokenRows(container);
+    }
+    function resetBrokenList(container) {
+      container.innerHTML = '';
+      container.dataset.nextIndex = '1';
+      createBrokenRow(container);
+    }
+
+    // Event delegation for broken rows
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('add-broken-row')) {
+        const target = document.getElementById(e.target.dataset.target);
+        if (target) createBrokenRow(target);
+      }
+      if (e.target.closest('.remove-broken-row')) {
+        const row = e.target.closest('.b-row');
+        const container = row.parentElement;
+        if (getBrokenList(container).length > 1) {
+          row.remove();
+          renumberBrokenRows(container);
+        }
+      }
+    });
+
+    /* Draft Logic */
+    function collectBrokenTextValues(container) {
+      return Array.from(container.querySelectorAll('.b-row')).map(row => {
+        const input = row.querySelector('input[type="text"]');
+        return input ? input.value || '' : '';
+      });
+    }
+    if (canEdit && form) {
+      const autosaveKey = form.dataset.autosaveKey;
+      
+      function saveDraft() {
+        const draft = {};
+        editableFields.forEach(fieldName => {
+          const field = form.elements[fieldName];
+          draft[fieldName] = field ? field.value : '';
+        });
+        const addList = document.getElementById('add-broken-list');
+        if(addList) draft.broken_reasons = collectBrokenTextValues(addList);
+        localStorage.setItem(autosaveKey, JSON.stringify(draft));
+        fetch('/draft/save', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(draft),
+        }).catch(() => {});
+      }
+      
+      function restoreDraft() {
+        try {
+          const draft = JSON.parse(localStorage.getItem(autosaveKey) || '{}');
+          editableFields.forEach(fieldName => {
+            const field = form.elements[fieldName];
+            if (field && typeof draft[fieldName] === 'string') field.value = draft[fieldName];
+          });
+          if (Array.isArray(draft.broken_reasons) && draft.broken_reasons.length > 0) {
+            const container = document.getElementById('add-broken-list');
+            if(container) {
+              container.innerHTML = '';
+              draft.broken_reasons.forEach(r => createBrokenRow(container, r));
+            }
+          }
+        } catch(e) {}
+      }
+
+      let autosaveTimer;
+      form.addEventListener('input', () => {
+        window.clearTimeout(autosaveTimer);
+        autosaveTimer = window.setTimeout(saveDraft, 350);
+      });
+      if(clearDraftBtn) clearDraftBtn.addEventListener('click', () => {
+        localStorage.removeItem(autosaveKey);
+        form.reset();
+        if(preview) preview.innerHTML = '';
+        const addList = document.getElementById('add-broken-list');
+        if(addList) resetBrokenList(addList);
+      });
+      form.addEventListener('submit', () => localStorage.removeItem(autosaveKey));
+
+      resetBrokenList(document.getElementById('add-broken-list'));
+      const editBList = document.getElementById('edit-broken-list');
+      if(editBList) resetBrokenList(editBList);
+      restoreDraft();
+    }
+
+    if (imagesInput) {
+      imagesInput.addEventListener('change', () => {
+        preview.innerHTML = '';
+        const files = Array.from(imagesInput.files || []);
+        if (files.length > 3) {
+          alert('最多只能选择 3 张图片。');
+          imagesInput.value = '';
+          return;
+        }
+        files.forEach(file => {
+          const reader = new FileReader();
+          reader.onload = e => {
+            const figure = document.createElement('figure');
+            figure.className = 'preview-card';
+            figure.innerHTML = `<img src="${e.target.result}" alt="preview"><figcaption>${file.name}</figcaption>`;
+            preview.appendChild(figure);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+    }
+
+    /* 设备列表搜索逻辑由 /static/ui.js 管理（会调用 updateEditList） */
+    
+    // Auto-fade toasts
+    setTimeout(() => {
+      document.querySelectorAll('.toast').forEach(t => t.style.opacity = '0');
+    }, 4000);
+  </script>
+  <script src="{{ url_for('static', filename='ui.js') }}"></script>
+</body>
+</html>

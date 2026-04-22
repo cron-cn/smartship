@@ -1,0 +1,55 @@
+{
+  "id": 2,
+  "device_code": "1",
+  "device_name": "esp32-s3-cam",
+  "display_name": "esp32-s3-cam",
+  "voltage": "3.3v",
+  "current": "",
+  "quantity_normal": "6(装船两个)",
+  "quantity_broken": "4",
+  "broken_details": [
+    {
+      "index": 1,
+      "reason": "去年比赛烧毁",
+      "image_file_id": null,
+      "image_original_name": "",
+      "image_relative_path": ""
+    },
+    {
+      "index": 2,
+      "reason": "被焊死",
+      "image_file_id": null,
+      "image_original_name": "",
+      "image_relative_path": ""
+    },
+    {
+      "index": 3,
+      "reason": "电压烧毁",
+      "image_file_id": null,
+      "image_original_name": "",
+      "image_relative_path": ""
+    },
+    {
+      "index": 4,
+      "reason": "被焊死，故障发烫",
+      "image_file_id": null,
+      "image_original_name": "",
+      "image_relative_path": ""
+    }
+  ],
+  "device_status": "已入库",
+  "remarks": "",
+  "purchase_link": "https://item.taobao.com/item.htm?_u=k35gpgur371c&id=882111305961&spm=a1z09.2.0.0.321b2e8dmMlq0f",
+  "folder_name": "device_2_esp32-s3-cam",
+  "created_at": "2026-04-20T23:19:00",
+  "images": [
+    {
+      "id": 1,
+      "kind": "image",
+      "original_name": "ESP32-s3-cam-gpio.jpg",
+      "relative_path": "data/devices/device_2_esp32-s3-cam/images/image_2_20260420231900085326.jpg"
+    }
+  ],
+  "attachments": [],
+  "broken_images": []
+}
